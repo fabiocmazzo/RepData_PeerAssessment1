@@ -6,6 +6,8 @@
 
 ```{r echo = TRUE}
 
+Sys.setlocale("LC_TIME", "en_US.UTF-8")
+
 activityOriginal <- read.csv('activity.csv',stringsAsFactors = F);
 activityDF <- activityOriginal[complete.cases(activityOriginal),];
 activityDF$date <- as.Date(activityDF$date, format = "%Y-%m-%d");
@@ -87,4 +89,66 @@ hist(perDayCompleteDF$steps,main="Steps by Day (Complete DataFrame)",
 ```
 
 
+The mean steps taken per day (Complete Data Frame) is:
+
+```{r echo = TRUE}
+mean(perDayCompleteDF$steps);
+```
+
+With NA's the mean is:
+
+```{r echo = TRUE}
+mean(perDayDF$steps);
+```
+
+
+
+The median steps taken per day (Complete Data Frame) is:
+
+
+```{r echo = TRUE}
+median(perDayCompleteDF$steps);
+```
+
+With NA's the mean is:
+
+```{r echo = TRUE}
+median(perDayDF$steps);
+```
+
+
 ## Are there differences in activity patterns between weekdays and weekends?
+
+```{r echo = TRUE}
+
+require(ggplot2)
+
+activityDF$wday    <- as.factor(ifelse(weekdays(activityDF$date) %in% c("Saturday","Sunday"), "Weekend", "Weekday")) ;
+
+weekendDF <- subset(activityDF, wday == "Weekend");
+weekdayDF <- subset(activityDF, wday == "Weekday");
+
+head(weekendDF);
+
+
+avgPerIntervalWeekend <- aggregate(weekendDF$steps, by=list(interval = weekendDF$interval), FUN=mean);
+
+
+colnames(avgPerIntervalWeekend) <- c("interval","meanSteps");
+
+avgPerIntervalWeekday <- aggregate(weekdayDF$steps, by=list(interval = weekdayDF$interval), FUN=mean);
+colnames(avgPerIntervalWeekday) <- c("interval","meanSteps");
+
+plot(avgPerIntervalWeekend$interval ,avgPerIntervalWeekend$meanSteps ,col="blue", type="l",
+       main="Daily Average Steps by 5 minutes interval in Weekends",
+       ylab="Average Steps",
+       xlab="5 minutes interval");
+
+plot(avgPerIntervalWeekday$interval ,avgPerIntervalWeekday$meanSteps ,col="red", type="l",
+       main="Daily Average Steps by 5 minutes interval in Weekdays",
+       ylab="Average Steps",
+       xlab="5 minutes interval")
+
+```
+
+
