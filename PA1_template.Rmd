@@ -67,6 +67,8 @@ average steps
 
 ## Inputing missing values
 
+I used the average of the interval to fill  missing steps (with NA's)
+
 ```{r echo = TRUE}
 
 library(plyr);
@@ -138,6 +140,8 @@ colnames(avgPerIntervalWeekend) <- c("interval","meanSteps");
 
 avgPerIntervalWeekday <- aggregate(weekdayDF$steps, by=list(interval = weekdayDF$interval), FUN=mean);
 colnames(avgPerIntervalWeekday) <- c("interval","meanSteps");
+
+par(mfrow=c(2,1))
 
 plot(avgPerIntervalWeekend$interval ,avgPerIntervalWeekend$meanSteps ,col="blue", type="l",
        main="Daily Average Steps by 5 minutes interval in Weekends",

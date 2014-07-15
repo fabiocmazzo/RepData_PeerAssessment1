@@ -97,6 +97,8 @@ average steps
 
 ## Inputing missing values
 
+I used the average of the interval to fill  missing steps (with NA's)
+
 
 ```r
 library(plyr);
@@ -206,21 +208,19 @@ colnames(avgPerIntervalWeekend) <- c("interval","meanSteps");
 avgPerIntervalWeekday <- aggregate(weekdayDF$steps, by=list(interval = weekdayDF$interval), FUN=mean);
 colnames(avgPerIntervalWeekday) <- c("interval","meanSteps");
 
+par(mfrow=c(2,1))
+
 plot(avgPerIntervalWeekend$interval ,avgPerIntervalWeekend$meanSteps ,col="blue", type="l",
        main="Daily Average Steps by 5 minutes interval in Weekends",
        ylab="Average Steps",
        xlab="5 minutes interval");
-```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-131.png) 
-
-```r
 plot(avgPerIntervalWeekday$interval ,avgPerIntervalWeekday$meanSteps ,col="red", type="l",
        main="Daily Average Steps by 5 minutes interval in Weekdays",
        ylab="Average Steps",
        xlab="5 minutes interval")
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-132.png) 
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
 
 
